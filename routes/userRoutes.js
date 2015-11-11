@@ -1,21 +1,25 @@
-
 module.exports = function(app, passport) {
 
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/verified', function(req, res) {
+        user : req.user
         res.render('./pages/index', {
             user : req.user
         }); // load the index.ejs file
     }); 
     app.get('/', function(req, res) {
+        user : req.user
         res.render('./pages/verify', {
             user : req.user
         }); // load the index.ejs file
-    }); 
+    });
 
-    // =====================================
+    app.use('/beers/:beerId/rating', function(req, res){
+        user: req.user
+    });
+        // =====================================
     // LOGIN ===============================
     // =====================================
     // show the login form

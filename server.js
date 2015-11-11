@@ -31,8 +31,8 @@ var getUsersRoutes = require ('./routes/getUsersRoutes')
 
 app.use('/api/beer', beerRoutes);
 app.use('/api/rating', ratingRoutes);
-// app.use('/api/users', userRoutes);
-app.use('/api/users', getUsersRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/getUsers', getUsersRoutes);
 
 
 
@@ -46,12 +46,6 @@ app.use(bodyParser());
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
-// use res.render to load up an ejs view file
-
-// index page 
-
-// about page 
 
 app.get('/test', function(req, res) {
     res.render('/test');
