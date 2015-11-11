@@ -6,50 +6,19 @@ var Beer = require('../model/beerModel');
 var User = require('../model/user');
 
 
-router.use(bodyParser.urlencoded({ extended: true }));
+//router.use(bodyParser.urlencoded({ extended: true }));
+module.exports = function(app, passport){
 
-
-
-router.route('/beers/:beerId/rating')
-	.post(function(req, res) {
+ app.post('/api/rating/beers/:beerId/rating',function(req, res) {
 	
-	var user = req.params;
-
-	console.log(user);
-
-
-	// mongoose.model('User').find({}, function(err, users){
- //            if(err){
- //                return console.log(err);
- //            } else {
- //                users = users
- //        }
- //    });
-
-		// var user = new User ({user_id: req.body["user._id"]});
-			// user.user = req.user._id;
-
-		// var user = mongoose.model('User').find({
-
-		// }, function(err, user) {
-		// 	if (err){
-		// 		console.log(err)
-		// 	} else {
-		// 		res.JSON(user)
-		// 	}
-
-		// })
-		// console.log(req)
-		console.log(user, "*********************************")
-
-			
-		var b = req.body;	
-
-		console.log('New Rating:', b);
-		
-		// Find beer by beerId
-		mongoose.model('Beer').findById({
-			_id: req.params.beerId
+	var user = req.user;
+	console.log(user,"*****************");			
+	
+	var b = req.body;	
+	console.log('New Rating:', b);
+	
+	mongoose.model('Beer').findById({
+			id: req.params.beerId
 		}, function(err, beer) {
 			if(err) {
 				res.send(err);
@@ -59,8 +28,8 @@ router.route('/beers/:beerId/rating')
 		beer.ratings = beer.ratings || [];
 		beer.ratings.push({
 			tasting_notes: b.tasting_notes,
-			overall: b.overall,
-            user_id: req.user._id
+			overall: b.overall
+            // user_id: req.user._id
 		})
 		// Save the updated beer back to the DB
 		
@@ -74,8 +43,7 @@ router.route('/beers/:beerId/rating')
 		});	
 	})		
 	
-router.route('/')
-	.get(function(req, res){
+app.get('/api/rating',function(req, res){
 		mongoose.model('Beer').find({}, function(err, beer){
 			if(err){
 				return console.log('err');
@@ -87,20 +55,17 @@ router.route('/')
 
 
 
-router.route('/:id')
-	
-
-	.get(function(req, res) {
+ app.get('/api/rating/:id', function(req, res) {
 		mongoose.model('Beer').findById({
 			_id: req.params.id
 		}, function(err, beer) {
 			if(err)
 				res.send(err);
-				res.json(beer);
+			res.json(beer);
 		});
-	})
+	});
 
-.put(function(req, res) {
+app.put('/api/rating/:id',function(req, res) {
 		mongoose.model('Beer').findById(req.params.id, function(err, beer){
 			if(err)
 				res.send(err);
@@ -124,7 +89,7 @@ router.route('/:id')
 
 //get all ratings by beer ID
 
-	.delete(function(req, res) {
+	app.delete('/api/beer/:id',function(req, res) {
 		mongoose.model('Beer').remove({
 			_id: req.params.id
 		}, function(err, beer) {
@@ -134,4 +99,4 @@ router.route('/:id')
 		});
 	});
 
-module.exports = router;
+}

@@ -4,10 +4,9 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var User = require('../model/user');
 
-router.use(bodyParser.urlencoded({ extended: true }));
+module.exports = function(app, passport){
 
-router.route('/')
-    .get(function(req, res){
+app('/api/getUsers/', get(function(req, res){
         mongoose.model('User').find({}, function(err, user){
             if(err){
                 return console.log('err');
@@ -17,8 +16,7 @@ router.route('/')
         });
     })
 
-router.route('/:id')
-    .get(function(req, res) {
+app('/api/getUsers/:id', get(function(req, res) {
         mongoose.model('User').findById({
             _id: req.params.id
         }, function(err, user) {
@@ -28,4 +26,4 @@ router.route('/:id')
         });
     })
     
-module.exports = router;
+}

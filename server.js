@@ -16,23 +16,20 @@ var session      = require('express-session');
 
 var db = require('./model/db');
 
-var beerModel = require ('./model/beerModel');
-var beerRoutes = require ('./routes/beerRoutes');
 
-var ratingRoutes = require ('./routes/ratingRoutes');
 
-var userRoutes = require ('./routes/userRoutes')
-var getUsersRoutes = require ('./routes/getUsersRoutes')
+// app.use('/api/beer', beerRoutes);
+// app.use('/api/rating', ratingRoutes);
+// app.use('/api/users', userRoutes);
+// app.use('/api/getUsers', getUsersRoutes);
+
 
 
 
 //Routes========================================================================
 
 
-app.use('/api/beer', beerRoutes);
-app.use('/api/rating', ratingRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/getUsers', getUsersRoutes);
+
 
 
 
@@ -57,6 +54,9 @@ app.use(passport.session());
 app.use(flash()); 
 
 require('./routes/userRoutes.js')(app, passport);
-
+require ('./routes/beerRoutes')(app, passport);
+require ('./routes/ratingRoutes')(app, passport);
+ 
+ // require ('./routes/getUsersRoutes')(app, passport);
 app.listen(port);
 console.log('9090 is the magic port');
