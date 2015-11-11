@@ -19,8 +19,6 @@ app.get('/api/beer/', function(req, res){
 app.post('/api/beer/', function(req, res){
 
 		var newBeer = req.body; //{name:..., image:...}
-
-
 		mongoose.model('Beer').create(newBeer,
 		function(err, beer){
 			if(err){
